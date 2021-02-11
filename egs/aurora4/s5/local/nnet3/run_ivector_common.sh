@@ -40,8 +40,10 @@ for f in data/${train_set}/feats.scp ${gmm_dir}/final.mdl; do
   fi
 done
 
+extract_ivectors="steps/online/nnet2/extract_ivectors.sh"
 if [ -z ${ivector_affix} ]; then
   lang_opts="data/lang"
+  extract_ivectors="local/extract_ivectors.sh"
 fi
 
 if [ $stage -le 10 ]; then
@@ -98,7 +100,7 @@ if [ $stage -le 12 ]; then
 
   for data in ${test_sets}; do
     nspk=$(wc -l <data/${data}_hires/spk2utt)
-    steps/online/nnet2/extract_ivectors${ivector_affix}.sh --cmd "$train_cmd" --nj "${nspk}" \
+    "${extract_ivectors}" --cmd "$train_cmd" --nj "${nspk}" \
       data/${data}_hires ${lang_opts} exp/nnet3${nnet3_affix}/extractor \
       exp/nnet3${nnet3_affix}/ivectors_${data}_hires${ivector_affix}
   done
