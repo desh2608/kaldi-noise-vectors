@@ -34,6 +34,22 @@ if you have already run one of them, you may want to skip some of the stages whi
 running others, for e.g., stages for high-resolution feature extraction and lattice
 generation.
 
-### Recipes
+### Recipes and Results
 
-### Results
+| **Recipe**               | **Command**                                                 | **test_eval92** | **test_0166** |
+|--------------------------|-------------------------------------------------------------|:---------------:|:-------------:|
+| Baseline TDNN-F          | `local/chain/tuning/run_tdnn_1a.sh`                         |       8.11      |      8.49     |
+| + CMN                    | `local/chain/tuning/run_tdnn_1a.sh --apply-cmvn true`       |       7.77      |      8.08     |
+| Multi-condition training | `local/chain/tuning/run_tdnn_1b.sh`                         |       6.83      |      7.00     |
+| i-vector                 | `local/chain/tuning/run_tdnn_1c.sh --ivector-type offline`  |       6.76      |      7.08     |
+| i-vector (online)        | `local/chain/tuning/run_tdnn_1c.sh --ivector-type online`   |       8.55      |      8.90     |
+| NAT vector               | `local/chain/tuning/run_tdnn_1d.sh --noise-type seltzer`    |       8.18      |      8.43     |
+| e-vector                 | `local/chain/tuning/run_tdnn_1d.sh --noise-type evec_lda`   |       7.68      |      7.93     |
+| Bottleneck NN            | `local/chain/tuning/run_tdnn_1d.sh --noise-type bottleneck` |       8.16      |      8.44     |
+| Noise vectors            | `local/chain/tuning/run_tdnn_1e.sh --type offline`          |       7.39      |      7.67     |
+| Noise vectors (MLE)      | `local/chain/tuning/run_tdnn_1e.sh --type mle`              |       7.88      |      7.99     |
+
+**Note:** Results in the above table may be different from those in the paper due 
+to the use of online CMN in the experiments conducted for the paper. It seems online CMN
+degrades offline i-vector performance considerably. The comparison between the noise
+vector baselines follow the same trend as in the paper.
